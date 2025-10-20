@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <fstream>
 using namespace std;
 
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
@@ -8,12 +9,10 @@ const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
 class DoublyLinkedList {
 private:
     struct Node {
-        int data;
         string name;
         Node* prev;
         Node* next;
-        Node(int val, const string& custName = " ", Node* p = nullptr, Node* n = nullptr) {
-            data = val; 
+        Node(const string& custName = " ", Node* p = nullptr, Node* n = nullptr) { 
             name = custName; 
             prev = p;
             next = n;
@@ -117,8 +116,8 @@ public:
         delete temp;
     }
 
-    void push_back(int v) {
-        Node* newNode = new Node(v);
+    void push_back(int v, const string& custName = " ") {
+        Node* newNode = new Node(v, custName);
         if (!tail)
             head = tail = newNode;
         else {
@@ -187,7 +186,7 @@ public:
             return;
         }
         while (current) {
-            cout << current->data << " ";
+            cout << current->name << " ";
             current = current->next;
         }
         cout << endl;
@@ -200,7 +199,7 @@ public:
             return;
         }
         while (current) {
-            cout << current->data << " ";
+            cout << current->name << " ";
             current = current->prev;
         }
         cout << endl;
@@ -210,9 +209,25 @@ public:
 int main() {
     cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
     int period = 0; 
+    int prob = 0; 
     DoublyLinkedList shopLine; 
-    
+    ifstream fin; 
+    fin.open("names.txt");
+    if(fin.good()) {
+        int namepos = 0;
+        string name; 
+        while(getline(fin, name)) { 
+            for ()
+            shopLine.push_back(name); 
+        }
+        fin.close();
+    }
+    else {
+        cout << "Error opening names.txt file." << endl;
+    }
 
+    cout << "Store Opens: " << endl;
+    shopLine.print();
     
     return 0;
 }
