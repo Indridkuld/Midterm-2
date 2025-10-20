@@ -9,10 +9,12 @@ const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
 class DoublyLinkedList {
 private:
     struct Node {
+        int data;
         string name;
         Node* prev;
         Node* next;
-        Node(const string& custName = " ", Node* p = nullptr, Node* n = nullptr) { 
+        Node(int val, const string& custName = " ", Node* p = nullptr, Node* n = nullptr) {
+            data = val; 
             name = custName; 
             prev = p;
             next = n;
@@ -115,7 +117,7 @@ public:
         temp->next->prev = tempPrev;
         delete temp;
     }
-
+    // Add node to end of list
     void push_back(int v, const string& custName = " ") {
         Node* newNode = new Node(v, custName);
         if (!tail)
@@ -126,7 +128,7 @@ public:
             tail = newNode;
         }
     }
-    
+    // Add node to front of list
     void push_front(int v) {
         Node* newNode = new Node(v);
         if (!head)
@@ -186,7 +188,7 @@ public:
             return;
         }
         while (current) {
-            cout << current->name << " ";
+            cout << current->data << " ";
             current = current->next;
         }
         cout << endl;
@@ -199,7 +201,7 @@ public:
             return;
         }
         while (current) {
-            cout << current->name << " ";
+            cout << current->data << " ";
             current = current->prev;
         }
         cout << endl;
@@ -211,23 +213,29 @@ int main() {
     int period = 0; 
     int prob = 0; 
     DoublyLinkedList shopLine; 
+
+    cout << "Store Opens: " << endl;
+    
+    shopLine.print();
+    
+    return 0;
+}
+// function that takes a txt file of names and populates the doubly linked list with customers
+void populateList(DoublyLinkedList& shopLine, int numNames) {
     ifstream fin; 
     fin.open("names.txt");
     if(fin.good()) {
-        int namepos = 0;
         string name; 
+        int count = 0;
         while(getline(fin, name)) { 
-            for ()
-            shopLine.push_back(name); 
+            if (numNames > 0 && count >= numNames) // limit number of names if numNames > 0
+                break;
+            shopLine.push_back(); 
+            ++count;
         }
         fin.close();
     }
     else {
         cout << "Error opening names.txt file." << endl;
     }
-
-    cout << "Store Opens: " << endl;
-    shopLine.print();
-    
-    return 0;
 }
