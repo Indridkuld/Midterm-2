@@ -28,9 +28,9 @@ public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
 
 // function that takes a txt file of names and populates the doubly linked list with customers
-void populateList(DoublyLinkedList& shopLine, int numNames) {
+void populateList(DoublyLinkedList& shopLine, int numNames, bool vip = false) {
     ifstream fin("names.txt"); 
-    if(fin.good()) {
+    if(!fin.good()) {
         // random name generator for customers
         std::random_device rd;
         std::mt19937 rng(rd());
@@ -42,8 +42,12 @@ void populateList(DoublyLinkedList& shopLine, int numNames) {
             if (numNames > 0 && count >= numNames) // limit number of names if numNames > 0
                 break;
             
-            int randnum = dist(rng);            // uses min and max to randomly generate a number of items for customer
+            int randnum = dist(rng); // uses min and max to randomly generate a number of items for customer
+            if (vip)
+                shopLine.push_front(randnum, name);  
+            else
             shopLine.push_back(randnum, name);  
+            cout << name << " joins the line" << endl;
             ++count;
         }
         fin.close();
@@ -155,7 +159,7 @@ void populateList(DoublyLinkedList& shopLine, int numNames) {
         }
     }
     // Add node to front of list
-    void push_front(int v) {
+    void push_front(int v, const string& custName = " ") {
         Node* newNode = new Node(v);
         if (!head)
             head = tail = newNode;
@@ -236,13 +240,43 @@ void populateList(DoublyLinkedList& shopLine, int numNames) {
 
 int main() {
     cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
-    int period = 0; 
+    int period = 20;
     int prob = 0; 
     DoublyLinkedList shopLine; 
 
     cout << "Store Opens: " << endl;
     shopLine.populateList(shopLine, 5); // populate list with 5 customers
+    cout << "Resulting line: " << endl;
     shopLine.print();
+    for (int count = 0; count < period; ++count) {
+        prob = rand() % 100 + 1; 
+        if (prob <= 40) { // customer served at beginning of line
+            shopLine.pop_front();
+            cout << shopLine.head->name << " is served" << endl;
+        }
+        prob = rand() % 100 + 1; 
+        if (prob <= 60) { // a new customer joining the end of the line
+            shopLine.populateLine(shopLine, 1);
+        }
+        prob = rand() % 100 + 1; 
+        if (prob <= 20) { // customer at end leaves line from impatience
+            shopLine.pop_back();
+            cout << shopLine.tail->name << " left the line" << endl;
+        }
+        prob = rand() % 100 + 1; 
+        if (prob <= 10) { // any customer leaves line from impatience
+            
+            
+        }
+        prob = rand() % 100 + 1; 
+        if (prob <= 10) { // vip customer joins the front of the line
+            shopLine.populateLine(shopLine, 1);
+            
+        }
+        cout << "Resulting line: " << endl;
+        shopLine.print();
+    }
+    
     
     return 0;
 }
