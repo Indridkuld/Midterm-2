@@ -26,7 +26,9 @@ private:
 
 public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
-
+// head and tail getter 
+const Node* getHead() const { return head; }
+const Node* getTail() const { return tail; }
 // function that takes a txt file of names and populates the doubly linked list with customers
 void populateList(DoublyLinkedList& shopLine, int numNames, bool vip = false) {
     ifstream fin("names.txt"); 
@@ -251,8 +253,11 @@ int main() {
     for (int count = 0; count < period; ++count) {
         prob = rand() % 100 + 1; 
         if (prob <= 40) { // customer served at beginning of line
-            shopLine.pop_front();
-            cout << shopLine.head->name << " is served" << endl;
+            const auto* h = shopLine.getHead();
+            if (h) {
+                cout << h->name << " is served" << endl;
+                shopLine.pop_front();
+            }
         }
         prob = rand() % 100 + 1; 
         if (prob <= 60) { // a new customer joining the end of the line
@@ -260,13 +265,20 @@ int main() {
         }
         prob = rand() % 100 + 1; 
         if (prob <= 20) { // customer at end leaves line from impatience
-            shopLine.pop_back();
-            cout << shopLine.tail->name << " left the line" << endl;
+            const auto* t = shopLine.getTail();
+            if (t) {
+                string who = t->name;
+                shopLine.pop_back();
+                cout << who << " left the line" << endl;
+            }
         }
         prob = rand() % 100 + 1; 
         if (prob <= 10) { // any customer leaves line from impatience
-            
-            
+            random_device rd;
+            mt19937 rng(rd());
+            uniform_int_distribution<int> dist
+            int pos = dist(rng);
+            shopLine.delete_pos(pos);
         }
         prob = rand() % 100 + 1; 
         if (prob <= 10) { // vip customer joins the front of the line
