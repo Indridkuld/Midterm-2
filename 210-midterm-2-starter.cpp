@@ -29,17 +29,21 @@ public:
 
 // function that takes a txt file of names and populates the doubly linked list with customers
 void populateList(DoublyLinkedList& shopLine, int numNames) {
-    ifstream fin; 
-    fin.open("names.txt");
+    ifstream fin("C:\Users\aidan\COMSC-210\Midterms\midterm2\names.txt"); 
     if(fin.good()) {
-        uniform_int_distribution<int> dist(MIN_NR, MAX_NR); // random name generator for customers
+        // random name generator for customers
+        std::random_device rd;
+        std::mt19937 rng(rd());
+        std::uniform_int_distribution<int> dist(MIN_NR, MAX_NR);   
+
         string name; 
         int count = 0;
         while(getline(fin, name)) { 
             if (numNames > 0 && count >= numNames) // limit number of names if numNames > 0
                 break;
             
-            shopLine.push_back(dist, name); 
+            int randnum = dist(rng);            // uses min and max to randomly generate a number of items for customer
+            shopLine.push_back(randnum, name);  
             ++count;
         }
         fin.close();
@@ -237,7 +241,7 @@ int main() {
     DoublyLinkedList shopLine; 
 
     cout << "Store Opens: " << endl;
-    
+    shopLine.populateList(shopLine, 5); // populate list with 5 customers
     shopLine.print();
     
     return 0;
