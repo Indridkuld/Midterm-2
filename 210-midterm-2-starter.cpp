@@ -29,7 +29,7 @@ public:
 
 // function that takes a txt file of names and populates the doubly linked list with customers
 void populateList(DoublyLinkedList& shopLine, int numNames) {
-    ifstream fin("C:\Users\aidan\COMSC-210\Midterms\midterm2\names.txt"); 
+    ifstream fin("names.txt"); 
     if(fin.good()) {
         // random name generator for customers
         std::random_device rd;
