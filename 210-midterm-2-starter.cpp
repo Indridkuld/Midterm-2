@@ -12,7 +12,7 @@ private:
         string name;
         Node* prev;
         Node* next;
-        Node(int val, const string& custName, Node* p = nullptr, Node* n = nullptr) {
+        Node(int val, const string& custName = " ", Node* p = nullptr, Node* n = nullptr) {
             data = val; 
             name = custName; 
             prev = p;
