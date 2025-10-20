@@ -27,6 +27,28 @@ private:
 public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
 
+// function that takes a txt file of names and populates the doubly linked list with customers
+void populateList(DoublyLinkedList& shopLine, int numNames) {
+    ifstream fin; 
+    fin.open("names.txt");
+    if(fin.good()) {
+        uniform_int_distribution<int> dist(MIN_NR, MAX_NR); // random name generator for customers
+        string name; 
+        int count = 0;
+        while(getline(fin, name)) { 
+            if (numNames > 0 && count >= numNames) // limit number of names if numNames > 0
+                break;
+            
+            shopLine.push_back(dist, name); 
+            ++count;
+        }
+        fin.close();
+    }
+    else {
+        cout << "Error opening names.txt file." << endl;
+    }
+}
+
     void insert_after(int value, int position) {
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
@@ -219,23 +241,4 @@ int main() {
     shopLine.print();
     
     return 0;
-}
-// function that takes a txt file of names and populates the doubly linked list with customers
-void populateList(DoublyLinkedList& shopLine, int numNames) {
-    ifstream fin; 
-    fin.open("names.txt");
-    if(fin.good()) {
-        string name; 
-        int count = 0;
-        while(getline(fin, name)) { 
-            if (numNames > 0 && count >= numNames) // limit number of names if numNames > 0
-                break;
-            shopLine.push_back(); 
-            ++count;
-        }
-        fin.close();
-    }
-    else {
-        cout << "Error opening names.txt file." << endl;
-    }
 }
