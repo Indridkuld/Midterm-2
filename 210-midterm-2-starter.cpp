@@ -8,11 +8,13 @@ const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
 class DoublyLinkedList {
 private:
     struct Node {
-        string data;
+        int data;
+        string name;
         Node* prev;
         Node* next;
-        Node(const string& val, Node* p = nullptr, Node* n = nullptr) {
+        Node(int val, const string& custName, Node* p = nullptr, Node* n = nullptr) {
             data = val; 
+            name = custName; 
             prev = p;
             next = n;
         }
@@ -24,7 +26,7 @@ private:
 public:
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
 
-    void insert_after(const string& value, int position) {
+    void insert_after(int value, int position) {
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
             return;
